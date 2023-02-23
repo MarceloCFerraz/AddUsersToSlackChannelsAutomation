@@ -1,88 +1,89 @@
 import openpyxl
 from .file import FORBIDDEN_CATEGORIES, getFile
+from main import printLine
 
-sheet = getFile().active
 categories_index = 2
 channels_index = 1
 
 
-def getChannelNameColumnIndex():
+def getChannelNameColumnIndex(sheet):
+    print("Searching for the 'Channel Name' column index")
+    printLine()
+
     for row_index in range(1, sheet.max_row):
         for column_index in range(1, sheet.max_column):
             cell = sheet.cell(row=row_index, column=column_index)
             value = cell.value
 
             if "Channel Name" == value:
-                channels_index = column_index
+                print("'Channel Name' found at column {}".format(column_index))
+                printLine()
                 return column_index
+    
+    print("COLUMN NOT FOUND!")
     return None
     
 
-def getCategoryColumnIndex():
+def getCategoryColumnIndex(sheet):
+    print("Searching for the 'Category' column index")
+    printLine()
+
     for row_index in range(1, sheet.max_row):
         for column_index in range(1, sheet.max_column):
             cell = sheet.cell(row=row_index, column=column_index)
             value = cell.value
 
             if "Category" == value:
-                categories_index = column_index
+                print("'Category' found at column {}".format(column_index))
+                printLine()
                 return column_index
+    
+    print("COLUMN NOT FOUND!")
     return None
 
 
-def getCategoriesList():
-    categories_list = []
-    
-    for row_index in range(2, sheet.max_row):
-        #it jumps the first line because it's where the header is located
-        
-        cell = sheet.cell(row=row_index, column=categories_index)
-        value = cell.value
-
-        if value != None and value not in categories_list and value not in FORBIDDEN_CATEGORIES:
-            categories_list.append(value)
-    
-    return categories_list
-
-
-def getChannelsList(category):
+def getChannelsListFromCategory(sheet, category, category_row_index):
     channels_list = []
-    firstCategoryRow = getCategoryFirstRow(category)
 
-    if firstCategoryRow != None:
-        for row_index in range(firstCategoryRow, sheet.max_row):
-            #it jumps the first line because it's where the header is located
-            channel_name = sheet.cell(row=row_index, column=channels_index).value
-            category_name = sheet.cell(row=row_index, column=categories_index).value
-            
-            if category != category_name:
-                return channels_list
-
+    for row_index in range(category_row_index, sheet.max_row):
+        #it jumps the first line because it's where the header is located
+        channel_name = sheet.cell(row=row_index, column=channels_index).value
+        category_name = sheet.cell(row=row_index, column=categories_index).value
+        
+        if category == category_name:
             channels_list.append(channel_name)
 
+    print("Channels list for {} filled successfully with ".format(category)+
+          "{} items".format(len(channels_list)))
+    printLine()
 
-def getCategoryFirstRow(category):
-    for row_index in range (2, sheet.max_row):
-        category_name = sheet.cell(row=row_index, column=categories_index).value
-
-        if category == category_name:
-            return row_index
-    return None
+    return channels_list
 
 
-def getChannelsDict():
+def getChannelsDict(sheet):
     # channels_dict = 
     # {
-    #   "category name": [
-    #                       "channel 1", 
-    #                       "channel 2", 
-    #                       ...
-    #                   ] 
+    #   "category name": [ "channel 1", "channel 2", ... ] 
     # }
 
     channels_dict = {}
-    channels_list = []
     past_category = ""
+
+    print("This function will avoid all the channels "+
+          "on the FORBIDDEN_CATEGORIES list")
+    print("The avoided categories are: ")
+    for item in FORBIDDEN_CATEGORIES:
+        if item == FORBIDDEN_CATEGORIES[len(FORBIDDEN_CATEGORIES) - 2]:
+            # if it is the penultimate item in list
+            print("{}".format(item), end=" and ")
+        elif item == FORBIDDEN_CATEGORIES[len(FORBIDDEN_CATEGORIES) - 1]:
+            # if it is the last item in list
+            print("{}".format(item))
+        else:
+            print("{}".format(item), end=", ")
+
+    print("Starting filling the channels dictionary")
+    printLine()
 
     for row_index in range(2, sheet.max_row):
         # it jumps the first line because it's where the header is located
@@ -92,11 +93,10 @@ def getChannelsDict():
         
         if channel_name != None and category != None and category not in FORBIDDEN_CATEGORIES:
             if category != past_category:
+                print("Getting Channels list from {}".format(category) + "category")
                 past_category = category
-                channels_dict[category] = getChannelsList(category)
-            else:
-                # print(category, end=" - ")
-                # print(channel_name)
-                channels_list.append(channel_name)
+                channels_dict[category] = getChannelsListFromCategory(sheet, category, row_index)
     
+    print("Finished filling the dictionary")
+    printLine()
     return channels_dict
