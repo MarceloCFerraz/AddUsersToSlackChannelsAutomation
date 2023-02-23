@@ -1,24 +1,27 @@
-import os
-import pandas
-import openpyxl
-from openpyxl import load_workbook
-from openpyxl.styles import Font
-from openpyxl.chart import BarChart, Reference
-import string
-
-CHANNELS_LIST_DEFAULT_NAME = "channels.xlsx"
-
-def fileExists():
-    current_dir = os.listdir()
-    if CHANNELS_LIST_DEFAULT_NAME in current_dir:
-        return True
-    return False
+from utils import file
+from utils import get
 
 
 if __name__ == "__main__":
-    if fileExists:
+    if file.fileExists:
         print("File found")
-        file = pandas.read_excel(CHANNELS_LIST_DEFAULT_NAME)
+
+        file.clearForbiddenCategories(file.getFile())
+        
+        channels_index = get.getChannelNameColumnIndex()
+        category_index = get.getCategoryColumnIndex()
+
+        if channels_index != None and category_index != None:
+            channels_dict = get.getChannelsDict()
+
+            for key in channels_dict.keys():
+                print("{} ({}): ".format(key, len(channels_dict[key])), end="")
+                print(channels_dict[key])
+                print("--------------------------------------------")
+            
+        else:
+            print("Your sheet doesn't have a 'Channel Name' or a 'Category' header\n"+
+                  "Please, check 'model.xlsx' and correct you channels file")
     else:
         print(
             "Channels file wasn't found.\n"+
