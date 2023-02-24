@@ -1,74 +1,89 @@
 import time
-from utils import gui
+from utils import gui, common
 from utils.image import text, image, limiarization
 
 
 COORDINATES = {
-    "search_input": (531, 26),
-    "search_input_item": (446, 210, 1480, 331),
-    "enter_channel_button": (1190, 950),
+    "top_of_slack": (1505, 26),
+    "channels": (140, 379),
+    "channels_manage": (210, 460),
+    "channels_explore": (491, 543),
+    "search_input": (485, 513),
+    "search_input_item": (488, 565),
+    "enter_channel_button": (1843, 619),
 }
 
 
 def openSlack():
     print("Opening Slack...")
     gui.hotKey("win", "4")
+    
+    time.sleep(1)
 
 
 def start(channels_dict):
-    time.sleep(1)
     openSlack()
 
-    standard_sleep = 2
+    gui.rightClickSleep( # right clicking at the channels menu
+        COORDINATES["channels"][0], # x position
+        COORDINATES["channels"][1], # y position
+        common.STANDARD_SLEEP_TIME # seconds to wait after having clicked
+    )
 
+    gui.pressKey("esc")
+
+    gui.rightClickSleep( # right clicking at the channels menu
+        COORDINATES["channels"][0], # x position
+        COORDINATES["channels"][1], # y position
+        common.STANDARD_SLEEP_TIME # seconds to wait after having clicked
+    )
+
+    gui.click( # clicking at the 'manage channels' menu
+        COORDINATES["channels_manage"][0], # x position
+        COORDINATES["channels_manage"][1], # y position
+    )
+
+    gui.clickSleep( # clicking at the 'explore channels' option in menu
+        COORDINATES["channels_explore"][0], # x position
+        COORDINATES["channels_explore"][1], # y position
+        common.STANDARD_SLEEP_TIME # seconds to wait after having clicked
+    )
 
     for category in channels_dict.keys():
-        # print("\n\n{} ({} items): ".format(category, len(channels_dict[category])), end=" ")
+        print("------> Searching for channels of {} category <------".format(category))
         for channel_index in range (0, len(channels_dict[category])):
             channel = channels_dict[category][channel_index]
+            print("> searching for {} <".format(channel))
 
-            gui.clickSleep( # clicking at the search bar
+            gui.clickSleep( # clicking at the search input
                 COORDINATES["search_input"][0], # x position
-                COORDINATES["search_input"][1], # y position
-                standard_sleep # seconds to wait after having clicked
+                COORDINATES["search_input"][1], # y position,
+                common.STANDARD_SLEEP_TIME # seconds to wait after having clicked 
             )
-
-            gui.hotKey("ctrl", "a") # to select any text on the search bar
-            gui.pressKeySleep("del", standard_sleep) # to delete any text on the search bar
-
-            gui.typeSleep(channel, standard_sleep) # type the channel name at the search bar
-
-            search_print = image.imgToGray(
-                image.printScreen(
-                    COORDINATES["search_input_item"][0],
-                    COORDINATES["search_input_item"][1],
-                    COORDINATES["search_input_item"][2],
-                    COORDINATES["search_input_item"][3],
-                )
-            )
-
-            search_print = limiarization.basic(search_print)
-
-            # image.showImage(search_print)
             
-            x, y, w, h, search_print, found = text.findTextOnImg(
-                text.extractDict(search_print),
-                search_print,
-                channel
+            gui.hotKey("ctrl", "a") # to select any remaining text in search input
+            gui.pressKey("del") # to delete any remaining text in search input
+            gui.printlessCountdown(common.STANDARD_SLEEP_TIME)
+
+            # typing the channel name on the search input
+            gui.typeSleep(channel, common.STANDARD_SLEEP_TIME*1.5)
+
+            # either hit 'enter' or click at the channel searched. 
+            # slack automatically recommends the best match for the input
+            # so if there is any other channel with similar name like
+            # 'financial' was searched but exists 'financial-result'
+            # slack automatically recommends the best match for the searched name
+            gui.pressKey("enter")
+            gui.printlessCountdown(common.STANDARD_SLEEP_TIME)
+            # gui.clickSleep(
+            #     COORDINATES["search_input_item"][0], # x position
+            #     COORDINATES["search_input_item"][1], # y position
+            #     common.STANDARD_SLEEP_TIME/2 # seconds to wait after having clicked 
+            # )
+
+            gui.clickSleep( # click 'join channel' button
+                COORDINATES["enter_channel_button"][0], # x position
+                COORDINATES["enter_channel_button"][1], # y position
+                common.STANDARD_SLEEP_TIME # seconds to wait after having clicked
             )
-
-            if x != None and y != None and w != None and h != None:
-                gui.clickSleep( # clicking at channel searched
-                    446 + x + (w / 2), # x position
-                    210 + y + (h / 2), # y position
-                    standard_sleep # seconds to wait after having clicked
-                )
-
-                gui.clickSleep( # clicking at the "Enter Channel" button
-                    COORDINATES["enter_channel_button"][0], # x position
-                    COORDINATES["enter_channel_button"][1], # y position
-                    standard_sleep # seconds to wait after having clicked
-                )
-            else:
-                print("Couldn't find the channel on that image")
-
+    print("Automation finished. Please just double check if all the channels were entered correctly")

@@ -1,6 +1,6 @@
 import openpyxl
-from .file import FORBIDDEN_CATEGORIES
-from main import printLine
+from utils.file import FORBIDDEN_CATEGORIES
+from utils.common import printLine
 
 categories_index = 2
 channels_index = 1

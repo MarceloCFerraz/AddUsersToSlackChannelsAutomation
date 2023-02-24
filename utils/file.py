@@ -19,7 +19,3 @@ def exists():
 def get():
     file = openpyxl.load_workbook(CHANNELS_LIST_DEFAULT_NAME)
     return file
-
-
-def clearForbiddenCategories(file):
-    print("need to implement this!")
