@@ -28,13 +28,19 @@ To install virtualenv, open the command prompt and run `pip install virtualenv`
 After that, open a command prompt at the project folder and run `virtualenv venv`
 
 On Unix or MacOS, using the bash shell run `source venv/bin/activate`
+
 On Unix or MacOS, using the csh shell: run `source venv/bin/activate.csh`
+
 On Unix or MacOS, using the fish shell: run `source venv/bin/activate.fish`
+
 On Windows using the Command Prompt: run `source venv/bin/activate.bat`
+
 On Windows using PowerShell: run `source venv/bin/Activate.ps1`
 
 ### Install dependencies
 
 With the venv activated, run `pip install -r requirements.txt`
+
+### Run
 
 Now you should be able to run the project on the console with `python main.py`
