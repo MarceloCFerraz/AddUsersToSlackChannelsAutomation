@@ -27,6 +27,8 @@ To install virtualenv, open the command prompt and run `pip install virtualenv`
 
 After that, open a command prompt at the project folder and run `virtualenv venv`
 
+### Activate venv
+
 On Unix or MacOS, using the bash shell run `source venv/bin/activate`
 
 On Unix or MacOS, using the csh shell: run `source venv/bin/activate.csh`
