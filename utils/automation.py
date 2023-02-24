@@ -1,6 +1,5 @@
 import time
 from utils import gui, common
-from utils.image import text, image, limiarization
 
 
 COORDINATES = {
