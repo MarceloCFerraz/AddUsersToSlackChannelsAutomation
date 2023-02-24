@@ -9,15 +9,16 @@ FORBIDDEN_CATEGORIES = [
     "Target Dispatch"
 ]
 
-def fileExists():
+def exists():
     current_dir = os.listdir()
     if CHANNELS_LIST_DEFAULT_NAME in current_dir:
         return True
     return False
 
 
-def getFile():
-    return openpyxl.load_workbook(CHANNELS_LIST_DEFAULT_NAME)
+def get():
+    file = openpyxl.load_workbook(CHANNELS_LIST_DEFAULT_NAME)
+    return file
 
 
 def clearForbiddenCategories(file):

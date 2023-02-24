@@ -1,12 +1,12 @@
 import openpyxl
-from .file import FORBIDDEN_CATEGORIES, getFile
+from .file import FORBIDDEN_CATEGORIES
 from main import printLine
 
 categories_index = 2
 channels_index = 1
 
 
-def getChannelNameColumnIndex(sheet):
+def channelNameColumnIndex(sheet):
     print("Searching for the 'Channel Name' column index")
     printLine()
 
@@ -24,7 +24,7 @@ def getChannelNameColumnIndex(sheet):
     return None
     
 
-def getCategoryColumnIndex(sheet):
+def categoryColumnIndex(sheet):
     print("Searching for the 'Category' column index")
     printLine()
 
@@ -42,7 +42,7 @@ def getCategoryColumnIndex(sheet):
     return None
 
 
-def getChannelsListFromCategory(sheet, category, category_row_index):
+def channelsListFromCategory(sheet, category, category_row_index):
     channels_list = []
 
     for row_index in range(category_row_index, sheet.max_row):
@@ -60,7 +60,7 @@ def getChannelsListFromCategory(sheet, category, category_row_index):
     return channels_list
 
 
-def getChannelsDict(sheet):
+def channelsDict(sheet):
     # channels_dict = 
     # {
     #   "category name": [ "channel 1", "channel 2", ... ] 
@@ -78,7 +78,7 @@ def getChannelsDict(sheet):
             print("{}".format(item), end=" and ")
         elif item == FORBIDDEN_CATEGORIES[len(FORBIDDEN_CATEGORIES) - 1]:
             # if it is the last item in list
-            print("{}".format(item))
+            print("{}".format(item), end="\n\n")
         else:
             print("{}".format(item), end=", ")
 
@@ -95,7 +95,7 @@ def getChannelsDict(sheet):
             if category != past_category:
                 print("Getting Channels list from {}".format(category) + "category")
                 past_category = category
-                channels_dict[category] = getChannelsListFromCategory(sheet, category, row_index)
+                channels_dict[category] = channelsListFromCategory(sheet, category, row_index)
     
     print("Finished filling the dictionary")
     printLine()
