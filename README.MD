@@ -1,6 +1,6 @@
 # Slack Bot
 
-This project aims to help the team at production support from MileZero and any other to enter all the slack channels that they need to.
+This project aims to help the team at production support from MileZero to bulk-add user to their respective slack channels by automating screen interactions such as clicks, key presses and typing.
 
 ## How to use it
 
