@@ -1,57 +1,82 @@
 from utils import automation, file, get, gui, common
 
 
-if __name__ == "__main__":
+def main():
+    accounts_file = file.get()
+    sheet = accounts_file.active
+    
+    emails_index = get.emailsColumnIndex(sheet)
+    channels_index = get.channelNameColumnIndex(sheet)
 
-    if file.exists():
-        print("File found")
-        common.printLine()
+    if channels_index != None and emails_index != None:
+        channels_dict = get.channelsDict(sheet)
 
-        print("Loading File")
-        file = file.get()
-        sheet = file.active
+        answer = ""            
         
-        channels_index = get.channelNameColumnIndex(sheet)
-        category_index = get.categoryColumnIndex(sheet)
-
-        if channels_index != None and category_index != None:
-            channels_dict = get.channelsDict(sheet)
-            file.close()
-
-            answer = ""            
-            
-            spaces = "========================"
-            print("\n\n{0} ATTENTION {0}\n".format(spaces))
-            print("The automation process will start now!\n"+
-                "But first make sure to attend to all the items that will be displayed bellow!\n\n"
-            )
-            for question_index in range(0, len(common.QUESTIONS)):
-                if common.answerCheck(answer):
-                    print("({}/{}) {}".format(
+        spaces = "========================"
+        common.cprint(
+            "\n\n{0} ATTENTION {0}\n".format(spaces),
+            "light_red",
+            attrs=["bold"]
+        )
+        print("The automation process will start now!\n"+
+            "But first make sure to attend to all the items that will be displayed bellow!\n\n"
+        )
+        for question_index in range(0, len(common.QUESTIONS)):
+            if common.answerCheck(answer):
+                common.cprint( # this is a function on termcolor module to add colors and formatting to python console
+                    "({}/{}) {}".format(
                         question_index + 1,
                         len(common.QUESTIONS),
                         common.QUESTIONS[question_index]
-                    ))
-            
-                    print("----> Hit 'enter' if this step was completed")
-                    print("----> Hit 'n' to cancel automation ")
-                    answer = input(print("--> ", end=""))
-                    common.clearConsole()
-            
-            if common.answerCheck(answer):
-                print("DON'T SWITCH BACK TO SLACK")
-                print("DON'T TOUCH THE KEYBOARD OR MICE")
-                print("\nGo grab a coffee and come back again to check up if everything is working fine")
-                print("Automation will start in... ")
-                gui.countdown(3)
-                automation.start(channels_dict)
-        else:
-            print("Your sheet doesn't have a 'Channel Name' or a 'Category' header\n"+
-                  "Please, check 'model.xlsx' and correct you channels file")
+                    ), 
+                    "light_yellow",
+                    attrs=["bold"]
+                )
+        
+                print("----> Hit", end=" ")
+                common.cprint(
+                    "'enter'", 
+                    "light_grey", 
+                    attrs=["underline"], 
+                    end=" "
+                )
+                print("if this step was completed")
+                
+                print("----> Type", end=" ")
+                common.cprint(
+                    "'n'", 
+                    "light_grey",
+                    attrs=["underline"],
+                    end=" "
+                )
+                print("to cancel automation ")
+                answer = input(common.cprint("--> ", attrs=["bold"], end=""))
+                common.clearConsole()
+        
+        if common.answerCheck(answer):
+            common.cprint("DON'T SWITCH BACK TO SLACK", "red", attrs=["bold"])
+            print("DON'T TOUCH THE KEYBOARD OR MICE", "red", attrs=["bold"])
+            print("\nGo grab a coffee and come back again to check up if everything is working fine")
+            print("Automation will start in... ")
+            gui.countdown(3)
+            automation.start(channels_dict)
     else:
-        print(
-            "Channels file wasn't found.\n"+
-            "Please, make sure to rename it to 'channels.xlsx' "+
-            "and that it is structurally equal to 'model.xlsx' present in project folder."
+        common.cprint("Your sheet doesn't have a 'Channel Name' or a 'User E-Mail' header\n"+
+                "Please, check 'model.xlsx' and correct you channels file",
+                "light_red"
         )
+
+
+if __name__ == "__main__":
+
+    if file.exists():
+        common.cprint("File found!", "light_green", attrs=["bold"])
+        common.printLine()
+
+        main()
+    else:
+        text = common.colored("Channels file wasn't found.\n","light_red",attrs=["bold"]) + "Please, make sure to create a "+ common.colored("new file ", attrs=["bold"]) + "or " + common.colored("rename ", attrs=["bold"]) + "the file you put the e-mails to "+ common.colored("'accounts.xlsx'", "light_yellow", attrs=["underline"]) + "!\n" + "Also make sure that it is " + common.colored("structurally equal ", attrs=["bold"]) + "to " + common.colored("'model.xlsx'", "light_yellow", attrs=["underline"]) + " present in this project folder."
+        print(text)
+    
     common.exitingProgram()

@@ -44,8 +44,8 @@ def hotKey(key_1, key_2):
     time.sleep(common.STANDARD_SLEEP_TIME)
 
 
-def typeSleep(channel_name, seconds):
-    gui.typewrite(channel_name, interval=STANDARD_INTERVAL/2)
+def typeSleep(text, seconds):
+    gui.typewrite(text, interval=STANDARD_INTERVAL/2)
     time.sleep(seconds)
 
 

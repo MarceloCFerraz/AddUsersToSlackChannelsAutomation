@@ -171,6 +171,6 @@ poetry.toml
 .ruff_cache/
 
 # default channels file
-channels.xlsx
+accounts.xlsx
 
 # End of https://www.toptal.com/developers/gitignore/api/python

@@ -1,13 +1,7 @@
 import os
 import openpyxl
 
-CHANNELS_LIST_DEFAULT_NAME = "channels.xlsx"
-FORBIDDEN_CATEGORIES = [
-    "Automated Notices",
-    "Defunct",
-    "Social",
-    "Target Dispatch"
-]
+CHANNELS_LIST_DEFAULT_NAME = "accounts.xlsx"
 
 def exists():
     current_dir = os.listdir()

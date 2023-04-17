@@ -1,86 +1,78 @@
 import openpyxl
-from utils.file import FORBIDDEN_CATEGORIES
 from utils.common import printLine
 
-categories_index = 2
-channels_index = 1
+emails_index = 1
+channels_index = 2
 
 
 def channelNameColumnIndex(sheet):
     print("Searching for the 'Channel Name' column index")
-    printLine()
 
-    for row_index in range(1, sheet.max_row):
-        for column_index in range(1, sheet.max_column):
+    for row_index in range(1, 2):
+        print(sheet.max_column)
+        for column_index in range(1, sheet.max_column+1):
             cell = sheet.cell(row=row_index, column=column_index)
             value = cell.value
+            print(value)
 
             if "Channel Name" == value:
                 print("'Channel Name' found at column {}".format(column_index))
                 printLine()
+                channels_index = column_index
                 return column_index
     
     print("COLUMN NOT FOUND!")
+    printLine()
     return None
     
 
-def categoryColumnIndex(sheet):
-    print("Searching for the 'Category' column index")
-    printLine()
+def emailsColumnIndex(sheet):
+    print("Searching for the 'User E-Mail' column index")
 
-    for row_index in range(1, sheet.max_row):
-        for column_index in range(1, sheet.max_column):
+    for row_index in range(1, 2):
+        print(sheet.max_column)
+        for column_index in range(1, sheet.max_column+1):
             cell = sheet.cell(row=row_index, column=column_index)
             value = cell.value
+            print(value)
 
-            if "Category" == value:
-                print("'Category' found at column {}".format(column_index))
+            if "User E-Mail" == value:
+                print("'User E-Mail' found at column {}".format(column_index))
                 printLine()
+                emails_index = column_index
                 return column_index
     
     print("COLUMN NOT FOUND!")
+    printLine()
     return None
 
 
-def channelsListFromCategory(sheet, category, category_row_index):
-    channels_list = []
+def emailsListFromCategory(sheet, channel, channel_row_index):
+    emails_list = []
 
-    for row_index in range(category_row_index, sheet.max_row):
+    for row_index in range(channel_row_index, sheet.max_row):
         #it jumps the first line because it's where the header is located
         channel_name = sheet.cell(row=row_index, column=channels_index).value
-        category_name = sheet.cell(row=row_index, column=categories_index).value
+        email = sheet.cell(row=row_index, column=emails_index).value
         
-        if category == category_name:
-            channels_list.append(channel_name)
+        if channel == channel_name:
+            emails_list.append(email)
 
-    print("Channels list for {} filled successfully with ".format(category)+
-          "{} items".format(len(channels_list)))
+    print("Emails list for {} filled successfully with ".format(channel)+
+          "{} items".format(len(emails_list)))
     printLine()
 
-    return channels_list
+    return emails_list
 
 
 def channelsDict(sheet):
     # channels_dict = 
     # {
-    #   "category name": [ "channel 1", "channel 2", ... ] 
+    #   "channel name": [ "email 1 ", "email 2", ... ] 
     # }
 
     channels_dict = {}
-    past_category = ""
-
-    print("This function will avoid all the channels "+
-          "on the FORBIDDEN_CATEGORIES list")
-    print("The avoided categories are: ")
-    for item in FORBIDDEN_CATEGORIES:
-        if item == FORBIDDEN_CATEGORIES[len(FORBIDDEN_CATEGORIES) - 2]:
-            # if it is the penultimate item in list
-            print("{}".format(item), end=" and ")
-        elif item == FORBIDDEN_CATEGORIES[len(FORBIDDEN_CATEGORIES) - 1]:
-            # if it is the last item in list
-            print("{}".format(item), end="\n\n")
-        else:
-            print("{}".format(item), end=", ")
+    past_email = ""
 
     print("Starting filling the channels dictionary")
     printLine()
@@ -89,13 +81,13 @@ def channelsDict(sheet):
         # it jumps the first line because it's where the header is located
 
         channel_name = sheet.cell(row=row_index, column=channels_index).value
-        category = sheet.cell(row=row_index, column=categories_index).value
+        email = sheet.cell(row=row_index, column=emails_index).value
         
-        if channel_name != None and category != None and category not in FORBIDDEN_CATEGORIES:
-            if category != past_category:
-                print("Getting Channels list from {}".format(category) + "category")
-                past_category = category
-                channels_dict[category] = channelsListFromCategory(sheet, category, row_index)
+        if channel_name != None and email != None:
+            if email != past_email:
+                print("Getting Channels list from {}".format(email) + "category")
+                past_email = email
+                channels_dict[channel_name] = emailsListFromCategory(sheet, channel_name, row_index)
     
     print("Finished filling the dictionary")
     printLine()

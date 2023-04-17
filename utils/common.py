@@ -1,4 +1,5 @@
 import os
+from termcolor import cprint, colored
 
 STANDARD_SLEEP_TIME = 1 # seconds
 
@@ -15,15 +16,10 @@ QUESTIONS = [
     "** Screen scale set to 100% (windows scale) **\n",
 
     "You need to use SLACK DESKTOP APP "+
-    "AND let its WINDOW MAXIMIZED\n",
+    "AND let its WINDOW MAXIMIZED but not in FULL SCREEN MODE\n",
 
-    "You need to let the all the CHANNELS and DIRECT MESSAGES in Slack MINIMIZED\n"+
-    "They need to have an → (right arrow) symbol to represent that they are minimized\n"+
-    "instead of a ↓ (down arrow)\n",
-
-    "It is important that you are not a member of any channel on the list\n"+
-    "If you are, you will be removed "+
-    "and will have to enter each of the channels you were MANUALLY later\n",
+    "It is important that you ARE a member of any channel on the list\n"+
+    "If you're not, please join the channels and come back",
 
     "Make sure to disable any notifications on your computer!\n"
 ]
@@ -41,7 +37,7 @@ def printChannelsDict(channels_dict):
 
 
 def exitingProgram():
-    print("Exiting program...")
+    print("\nExiting program...")
 
 
 def answerCheck(answer):
@@ -53,4 +49,3 @@ def clearConsole():
         os.system('clear')
     else:
         os.system('cls')
-

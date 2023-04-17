@@ -4,17 +4,21 @@ This project aims to help the team at production support from MileZero and any o
 
 ## How to use it
 
-There are a couple of dependencie that need to be installed first but the use itself is very simple and straightforward
+There are a couple of dependencies that need to be installed first but the use itself is very simple and straightforward
 
-When everything is ready, just drag a .xlsx file containing all the channels you need to join in into the project folder and rename it to `channels.xlsx`
+You must create a `accounts.xlsx` file that must contain both the e-mails to be added AND the name/reference of the slack channel that should get this new user invited.
 
-This file must follow the structure found on `model.xlsx` that is also on the project folder
+The file mentioned above must follow the structure found on `model.xlsx` that can be found on this project folder
 
 ## Install Dependencies
 
+### Pyenv
+
+You may want to take a look at [Pyenv](https://github.com/pyenv/pyenv) or [Pyenv for Windows](https://github.com/pyenv-win/pyenv-win). It's like NVM but for Python
+
 ### Python
 
-This project uses Python 3.11.2. Click [here](https://www.python.org/downloads/release/python-3112/) to download and install it
+This project uses Python 3.11.2. You can click [here](https://www.python.org/downloads/release/python-3112/) to download and install it or use `pyenv install 3.11.2` and `pyenv local 3.11.2`
 
 ### Pip
 
