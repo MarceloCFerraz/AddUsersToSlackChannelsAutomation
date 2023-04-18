@@ -54,7 +54,7 @@ def countdown(seconds):
         # if seconds <= 10:
         #     # emite som de alerta com contagem regressiva de 10 segundos
         #     winsound.Beep(900, 100)
-        print("{}".format(seconds), end="  ")
+        print(seconds)
         seconds -= 1
         time.sleep(1)
 

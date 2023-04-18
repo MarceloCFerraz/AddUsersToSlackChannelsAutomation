@@ -59,27 +59,36 @@ def start(channels_dict):
         
         common.cprint(
             "E-Mails for channel {}: ".format(channel),
-            
+            "light_blue"            
         )
         for email in emails:
             print("-> {}".format(email))
 
-        # click search input
-        gui.clickSleep(
-            COORDINATES["search_input"][0], # x
-            COORDINATES["search_input"][1], # y
-            common.STANDARD_SLEEP_TIME # 1s
-        )
+        # click search input 2x to make sure it was clicked
+        for i in range (0, 2):
+            gui.clickSleep(
+                COORDINATES["search_input"][0], # x
+                COORDINATES["search_input"][1], # y
+                common.STANDARD_SLEEP_TIME # 1s
+            )
+        # select and delete all text in the search field
+        gui.hotKey("ctrl", "a")
+        gui.pressKey("del")
         # type channel name on search input
         gui.typeSleep(
             channel, # channel name
-            common.STANDARD_SLEEP_TIME * 2 # 2s
+            common.STANDARD_SLEEP_TIME * 1 # 1s
+        )
+        # press enter to search for it
+        gui.pressKeySleep(
+            "enter",
+            common.STANDARD_SLEEP_TIME
         )
         # click "Channels" category
         gui.clickSleep(
             COORDINATES["channels_menu_tab"][0], # x
             COORDINATES["channels_menu_tab"][1], # y
-            common.STANDARD_SLEEP_TIME * 2 # 2s
+            common.STANDARD_SLEEP_TIME * 1 # 1s
         )
         # open channel
         gui.clickSleep(
@@ -91,7 +100,7 @@ def start(channels_dict):
         gui.clickSleep(
             COORDINATES["members"][0], # x
             COORDINATES["members"][1], # y
-            common.STANDARD_SLEEP_TIME * 2 # 2s
+            common.STANDARD_SLEEP_TIME * 1 # 1s
         )
         # click add people
         gui.clickSleep(
@@ -99,17 +108,18 @@ def start(channels_dict):
             COORDINATES["add_people"][1], # y
             common.STANDARD_SLEEP_TIME # 1s
         )
-        # click the e-mails input
-        gui.clickSleep(
-            COORDINATES["emails_input"][0], # x
-            COORDINATES["emails_input"][1], # y
-            common.STANDARD_SLEEP_TIME # 1s
-        )
+        # click the e-mails input 2x to make sure it was clicked
+        for i in range (0, 2):
+            gui.clickSleep(
+                COORDINATES["emails_input"][0], # x
+                COORDINATES["emails_input"][1], # y
+                common.STANDARD_SLEEP_TIME # 1s
+            )
         for email in emails:
             # type e-mail to add to the channel
             gui.typeSleep(
                 email,
-                common.STANDARD_SLEEP_TIME * 3 # 3s
+                common.STANDARD_SLEEP_TIME * 1 # 1s
             )
             # press enter
             gui.pressKeySleep(
@@ -160,24 +170,32 @@ def start(channels_dict):
             gui.clickSleep(
                 COORDINATES["notes"][0], # x
                 COORDINATES["notes"][1], # y
-                common.STANDARD_SLEEP_TIME
+                common.STANDARD_SLEEP_TIME # 1s
             )
+            gui.hotKey("ctrl", "a")
+            gui.pressKey("del")
             gui.typeSleep(
                 "Requested by dispatcher", # note message
-                common.STANDARD_SLEEP_TIME * 3 # 3s
+                common.STANDARD_SLEEP_TIME * 1 # 1s
             )
             # click "Send invitations"/"Next" (changes accordingly to the position of the user on the list)
             gui.clickSleep(
                 COORDINATES["notes_send_invitation"][0], # x
                 COORDINATES["notes_send_invitation"][1], # y
-                common.STANDARD_SLEEP_TIME * 2 # 2s
+                common.STANDARD_SLEEP_TIME * 1 # 1s
             )
         # click Done or press enter
         gui.pressKeySleep(
             "enter",
-            common.STANDARD_SLEEP_TIME * 2 # 2s
+            common.STANDARD_SLEEP_TIME * 1 # 1s
+        )
+        # Close add member modal by clicking out of it
+        gui.clickSleep(
+            COORDINATES["members"][0], # x
+            COORDINATES["members"][1], # y
+            common.STANDARD_SLEEP_TIME # 1s
         )
     common.cprint("AUTOMATION FINISHED!", "light_red", attrs=["bold"])
     print()
-    print("Please just double check if all user were invited by accessing")
+    print("Please just double check if all users were invited by accessing")
     common.cprint("More > Slack Connect > View Invitations", "light_green", attrs=["bold"])

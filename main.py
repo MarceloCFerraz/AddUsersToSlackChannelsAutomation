@@ -56,10 +56,10 @@ def main():
         
         if common.answerCheck(answer):
             common.cprint("DON'T SWITCH BACK TO SLACK", "red", attrs=["bold"])
-            print("DON'T TOUCH THE KEYBOARD OR MICE", "red", attrs=["bold"])
+            common.cprint("DON'T TOUCH THE KEYBOARD OR MICE", "red", attrs=["bold"])
             print("\nGo grab a coffee and come back again to check up if everything is working fine")
-            print("Automation will start in... ")
-            gui.countdown(3)
+            common.cprint("Automation will start in 3 seconds!", "light_yellow", attrs=["bold"])
+            gui.printlessCountdown(3)
             automation.start(channels_dict)
     else:
         common.cprint("Your sheet doesn't have a 'Channel Name' or a 'User E-Mail' header\n"+

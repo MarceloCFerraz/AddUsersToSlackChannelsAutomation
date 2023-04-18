@@ -12,8 +12,8 @@ QUESTIONS = [
     "The workspace should be the account you were assigned to (e.g. MileZero)\n",
 
     "You need to set:\n"+
-    "** Monitor Resolution set to 1920 x 1080 pixels **\n"+
-    "** Screen scale set to 100% (windows scale) **\n",
+    "** Monitor Resolution to 1920 x 1080 pixels **\n"+
+    "** Screen scale to 100% (windows scale) **\n",
 
     "You need to use SLACK DESKTOP APP "+
     "AND let its WINDOW MAXIMIZED but not in FULL SCREEN MODE\n",
@@ -21,7 +21,8 @@ QUESTIONS = [
     "It is important that you ARE a member of any channel on the list\n"+
     "If you're not, please join the channels and come back",
 
-    "Make sure to disable any notifications on your computer!\n"
+    "Make sure to disable any notifications on your computer for it can "+
+    "cause the automation process to not work properly!\n"
 ]
 
 def printLine():
