@@ -1,13 +1,8 @@
 import pyautogui as gui
 import time
-from utils import common
 
-STANDARD_INTERVAL = 0.1
-STANDARD_DURATION = STANDARD_INTERVAL
-
-
-def ultraFastClick(x, y):
-    gui.click(x, y)
+STANDARD_INTERVAL = 0.1 # interval is used to time the elapsed time between one action to the next (e.g. one key press/click to the next)
+STANDARD_DURATION = STANDARD_INTERVAL # duration is used to determine the general time spent on a action (e.g. move the cursor to the coordinates)
 
 
 def updatePage():
@@ -16,17 +11,25 @@ def updatePage():
 
 def click(x, y):
     # clica nas coordenadas que o botão está para dar foco na janela/fechar qualquer popup
-    gui.click(x, y, duration=STANDARD_DURATION*5)
+    gui.click(x, y)
 
 
 def clickSleep(x, y, sleep):
     # clica nas coordenadas que o botão está para dar foco na janela/fechar qualquer popup
-    gui.click(x, y, interval=STANDARD_INTERVAL*5, duration=STANDARD_DURATION*5)
+    gui.click(
+        x, 
+        y, 
+        duration=STANDARD_DURATION * 3 # 0,3s
+    )
     time.sleep(sleep)
 
 
 def rightClickSleep(x, y, sleep):
-    gui.rightClick(x, y, STANDARD_INTERVAL, STANDARD_DURATION*10)
+    gui.rightClick(
+        x, 
+        y, 
+        STANDARD_DURATION * 5 # 0,5s
+    )
     time.sleep(sleep)
 
 
@@ -39,20 +42,23 @@ def pressKeySleep(key, sleep):
     time.sleep(sleep)
 
 
-def hotKey(key_1, key_2):
+def hotKeySleep(key_1, key_2, sleep):
     gui.hotkey(key_1, key_2)
-    time.sleep(common.STANDARD_SLEEP_TIME)
+    time.sleep(sleep)
 
 
 def typeSleep(text, seconds):
-    gui.typewrite(text, interval=STANDARD_INTERVAL/2)
+    gui.typewrite(
+        text, 
+        interval=STANDARD_INTERVAL / 10 # 0,01s from a key press to the next
+    )
     time.sleep(seconds)
 
 
 def countdown(seconds):
     while seconds > 0:
         # if seconds <= 10:
-        #     # emite som de alerta com contagem regressiva de 10 segundos
+        #     # emits an alert sound after each second
         #     winsound.Beep(900, 100)
         print(seconds)
         seconds -= 1
