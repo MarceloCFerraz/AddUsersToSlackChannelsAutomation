@@ -184,12 +184,12 @@ def start(channels_dict):
             gui.clickSleep(
                 COORDINATES["notes_send_invitation"][0], # x
                 COORDINATES["notes_send_invitation"][1], # y
-                common.STANDARD_SLEEP_TIME / 2 # 0,5s
+                common.STANDARD_SLEEP_TIME # 1s
             )
         # Press enter
         gui.pressKeySleep(
             "enter",
-            common.STANDARD_SLEEP_TIME / 5 # 0,5s
+            common.STANDARD_SLEEP_TIME / 3 # 0,33s
         )
         # Close add member modal by clicking out of it
         gui.clickSleep(

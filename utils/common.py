@@ -22,7 +22,9 @@ QUESTIONS = [
     "If you're not, please join the channels and come back",
 
     "Make sure to disable any notifications on your computer for it can "+
-    "cause the automation process to not work properly!\n"
+    "cause the automation process to not work properly!\n",
+
+    "Make sure to close any Slack THREADS open on the right corner of the app"
 ]
 
 def printLine():
