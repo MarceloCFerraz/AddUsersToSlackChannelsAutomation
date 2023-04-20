@@ -55,11 +55,12 @@ def main():
                 common.clearConsole()
         
         if common.answerCheck(answer):
+            sleep = 5 # seconds to wait for the automation to start
             common.cprint("DON'T SWITCH BACK TO SLACK", "red", attrs=["bold"])
             common.cprint("DON'T TOUCH THE KEYBOARD OR MICE", "red", attrs=["bold"])
             print("\nGo grab a coffee and come back again to check up if everything is working fine")
-            common.cprint("Automation will start in 3 seconds!", "light_yellow", attrs=["bold"])
-            gui.printlessCountdown(3)
+            common.cprint("Automation will start in {} seconds!".format(sleep), "light_yellow", attrs=["bold"])
+            gui.printlessCountdown(sleep)
             automation.start(channels_dict)
     else:
         common.cprint("Your sheet doesn't have a 'Channel Name' or a 'User E-Mail' header\n"+
