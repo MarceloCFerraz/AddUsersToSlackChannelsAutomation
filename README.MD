@@ -14,7 +14,9 @@ The file mentioned above must follow the structure found on `model.xlsx` that ca
 
 ### Pyenv
 
-You may want to take a look at [Pyenv](https://github.com/pyenv/pyenv) or [Pyenv for Windows](https://github.com/pyenv-win/pyenv-win). It's like NVM but for Python
+You may want to take a look at [Pyenv](https://github.com/pyenv/pyenv) or [Pyenv for Windows](https://github.com/pyenv-win/pyenv-win). It's like NVM but for Python.
+
+If you decided to go with Pyenv, just like NVM, remember to unninstall any python installations you may have before installing Pyenv.
 
 ### Python
 
